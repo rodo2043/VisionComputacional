@@ -6,14 +6,14 @@ import random
 import math
 from math import *
 
-def ventana_bordes(foto4,ancho,alto):# creacion de  ventana de grises                                                                     
-    x=0#Cordenadas de posicion de la ventana                                                                                              
+def ventana_bordes(foto4,ancho,alto):# creacion de  ventana de grises       
+    x=0#Cordenadas de posicion de la ventana                                 
     y=0
-    ventana_bordes= Tkinter.Tk()#Creacion de ventana                                                                                         
-    ventana_bordes.title("Deteccion de bordes")#Titulo de ventana                                                                             
-    ventana_bordes.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicion                                                              
-    tkimage=ImageTk.PhotoImage(foto4)#Se convierte la imagen en un objeto tk                                                                 
-    Tkinter.Label(ventana_bordes,image=tkimage).pack()#Colocar imagen en ventana                                                              
+    ventana_bordes= Tkinter.Tk()#Creacion de ventana                        
+    ventana_bordes.title("Deteccion de bordes")#Titulo de ventana      
+    ventana_bordes.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicio
+    tkimage=ImageTk.PhotoImage(foto4)#Se convierte la imagen en un objeto t
+    Tkinter.Label(ventana_bordes,image=tkimage).pack()#Colocar imagen en venta
     ventana_bordes.mainloop()
 
 
@@ -28,15 +28,44 @@ def ventana_grises(foto,ancho,alto):# creacion de  ventana de grises
     ventana_gris.mainloop()
 
 def ventana_filtro(foto3,ancho,alto):# creacion de  ventana de grises                                                                          
-    x=0#Cordenadas de posicion de la ventana                                                                                              
+    x=0#Cordenadas de posicion de la ventana                                 
     y=0
-    ventana_filtro= Tkinter.Tk()#Creacion de ventana                                                                                         
-    ventana_filtro.title("Filtro")#Titulo de ventana                                                                               
-    ventana_filtro.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicion                                                              
-    tkimage=ImageTk.PhotoImage(foto3)#Se convierte la imagen en un objeto tk                                                                
-    Tkinter.Label(ventana_filtro,image=tkimage).pack()#Colocar imagen en ventana                                                            
+    ventana_filtro= Tkinter.Tk()#Creacion de ventana                          
+    ventana_filtro.title("Filtro")#Titulo de ventana                         
+    ventana_filtro.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicio
+    tkimage=ImageTk.PhotoImage(foto3)#Se convierte la imagen en un objeto tk 
+    Tkinter.Label(ventana_filtro,image=tkimage).pack()#Colocar imagen en venta
     ventana_filtro.mainloop()
 
+def ventana_salpi(foto5,ancho,alto):# creacion de  ventana de grises                                                       
+    x=0#Cordenadas de posicion de la ventana                                                                                     
+    y=0
+    ventana_salpi= Tkinter.Tk()#Creacion de ventana                                                                                      
+    ventana_salpi.title("Aplicacion Sal Pimienta")#Titulo de ventana                                                                      
+    ventana_salpi.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicio                                                             
+    tkimage=ImageTk.PhotoImage(foto5)#Se convierte la imagen en un objeto tk                                                                
+    Tkinter.Label(ventana_salpi,image=tkimage).pack()#Colocar imagen en venta                                                              
+    ventana_salpi.mainloop()
+
+def ventana_primerfiltrado(foto5,ancho,alto):# creacion de  ventana de grises                                                               
+    x=0#Cordenadas de posicion de la ventana                                                                                              
+    y=0
+    ventana_primerfiltrado= Tkinter.Tk()#Creacion de ventana                                                                                
+    ventana_primerfiltrado.title("Primer filtro de removido")#Titulo de ventana                                                              
+    ventana_primerfiltrado.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicio                                                       
+    tkimage=ImageTk.PhotoImage(foto5)#Se convierte la imagen en un objeto tk                                                                
+    Tkinter.Label(ventana_primerfiltrado,image=tkimage).pack()#Colocar imagen en venta                                                       
+    ventana_primerfiltrado.mainloop()
+
+def ventana_segundofiltrado(foto5,ancho,alto):# creacion de  ventana de grises                                                               
+    x=0#Cordenadas de posicion de la ventana                                                                                              
+    y=0
+    ventana_segundofiltrado= Tkinter.Tk()#Creacion de ventana                                                                                
+    ventana_segundofiltrado.title("Segundo filtro remover todo")#Titulo de ventana                                                           
+    ventana_segundofiltrado.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicio                                                      
+    tkimage=ImageTk.PhotoImage(foto5)#Se convierte la imagen en un objeto tk                                                                
+    Tkinter.Label(ventana_segundofiltrado,image=tkimage).pack()#Colocar imagen en venta                                                      
+    ventana_segundofiltrado.mainloop()
 
 
 def convolucion(foto4,ancho,alto):
@@ -67,6 +96,141 @@ def convolucion(foto4,ancho,alto):
     print "Tiempo bordes:"+str(tot)+"segundos"
     ventana_bordes(foto4,ancho,alto)
                                     
+def sal_pimienta(foto5,ancho,alto):
+    t_in=time()
+    pixeles=foto5.load()
+    intensidad=float(raw_input('Ingrese la intensidad 1 siendo lo mas alto:'))#Declaramos un valor intensidad 1 recorre la imagen completa
+    con=0
+    for i in range(ancho):
+        for j in range(alto):
+            (r,g,b)=foto5.getpixel((i,j))#recorremos la imagen
+            if(random.random()<intensidad):
+                try:
+                    
+                    x=random.randint(0,1000)#Generamos un valor random para sumar al pixel actual que es donde se agregara ruido
+                # print x
+                    if(x%2):#Si el numero generado es modulo de 2 el pixel pintado sera blanco
+                        pixeles[i+x,j+x]=(255,255,255)
+                        con+=1
+                    else:
+                        pixeles[i+x,j+x]=(0,0,0)#Si no es modulo se pinta negro
+                        con+=1
+                except:
+                    pass
+    t_fi=time()
+    total=t_fi-t_in
+    foto5.save('ruido.jpg')
+    print "Se a agregado ruido a "+str(con)+" pixeles"
+    print "El tiempo de ejecuccion al agregar ruido es de "+str(total)+" Segundos"
+    ventana_salpi(foto5,ancho,alto)#Crear ventana de sal pimienta
+    eliminar_salp(foto5,ancho,alto)#llamado a funcion para eliminar sal pimienta
+    
+
+def eliminar_salp(foto5,ancho,alto):
+    pixeles=foto5.load()
+    t_in=time()
+    con=0
+    con2=0
+    for i in range(ancho):
+        for j in range (alto):#Recorrer imagen
+            promedio=0
+            con2=0
+            (r,g,b)=foto5.getpixel((i,j))
+            if(pixeles[i,j]==(255,255,255) or pixeles[i,j]==(0,0,0)):#Si el pixel actual es blanco o negro
+                con+=1
+                try:
+                    if (pixeles[i-1,j]):#Revisar vecino izq
+                        if (pixeles[i-1,j]==(255,255,255) or pixeles[i-1,j]==(0,0,0)):# Si su vecino izq es negro o blanco no tomar en cuenta
+                            promedio+=0
+                            
+                        else:
+                            promedio+=pixeles[i-1,j][0]#Si es de otro color sumar a promedio
+                            con2+=1
+                except:
+                    pass
+                try:
+                    if (pixeles[i+1,j]):#revisar vecino der
+                        if (pixeles[i+1,j]==(255,255,255) or pixeles[i+1,j]==(0,0,0)):#Si el vecino derecho es blanco o negro no tomar
+                            promedio+=0
+                        else:
+                            promedio+=pixeles[i+1,j][0]#Si es de otro color sumar a promedio
+                            con2+=1
+                except:
+                    pass
+                try:
+                    if (pixeles[i,j-1]):#Revisar vecino abajo
+                        if (pixeles[i,j-1]==(255,255,255) or pixeles[i,j-1]==(0,0,0)):#Lo mismo vecino de abajo
+                            promedio+=0
+                        else:
+                            promedio+=pixeles[i,j-1][0]
+                            con2+=1
+                except:
+                    pass
+                try:
+                    if (pixeles[i,j+1]):#Revisar vecino de arriba
+                        if (pixeles[i,j+1]==(255,255,255) or pixeles[i,j+1]==(0,0,0)):#Lo mismo vecino de arriba
+                            promedio+=0
+                        else:
+                            promedio+=pixeles[i,j+1][0]
+                            con2+=1
+                except:
+                    pass
+                try:
+                    Total=promedio/con2
+                    pixeles[i,j]=(Total,Total,Total)
+                except:
+                    pass
+                #print promedio
+                #print con2
+
+    foto5.save('sinruido.jpg')
+    t_fi=time()
+    tot=t_fi-t_in
+    print "Tiempo del primerfiltrado:"+str(tot)+"segundos"
+    ventana_primerfiltrado(foto5,ancho,alto)
+    segundofiltro(foto5,ancho,alto)
+    print "Se han encontrado "+str(con)+" pixeles con ruido"
+
+def segundofiltro(foto5,ancho,alto):#Funcion que realiza el mismo proceso que el filtro pero para la foto obtenida de la eliminacion de salpi
+    t_in=time()
+    pixeles=foto5.load() #Cargar imagen                                                        
+    for i in range(ancho):#Se recogrre la imagen
+        for j in range(alto):
+            con=0#Contador
+            promedio=0
+            (r,g,b)=foto5.getpixel((i,j))
+            try:
+                if(pixeles[i+1,j]):#Vecinos derecho
+                    promedio+=pixeles[i+1,j][0]
+                    con+=1
+            except:
+                pass
+            try:
+                if(pixeles[i-1,j]):#Vecino izq
+                    promedio+=pixeles[i-1,j][0]
+                    con+=1
+            except:
+                pass
+            try:
+                if(pixeles[i,j+1]):#Vecino arriba
+                    promedio+=pixeles[i,j+1][0]
+                    con+=1
+            except:
+                pass
+            try:
+                if(pixeles[i,j-1]):#Vecino abajo
+                    promedio+=pixeles[i,j-1][0]
+                    con+=1
+            except:
+                pass
+            Total=promedio/con#Promedio entre vecinos disponibles
+            pixeles[i,j]=(Total,Total,Total)
+    foto5.save('SegundoFiltroSalPimienta.jpg')
+    t_fi=time()
+    tot=t_fi-t_in
+    print "Tiempo del segundofiltrado:"+str(tot)+"segundos"
+    ventana_segundofiltrado(foto5,ancho,alto)
+                
 def filtro(foto3,ancho,alto):#Funcion para realiza el filtrado
     t_in=time()
     pixeles=foto3.load() #Cargar imagen                                                        
@@ -150,6 +314,7 @@ def main():
     img= str(raw_input('Nombre de imagen: '))#Pedir imagen
     foto=Image.open(img)#Abrir la imagen
     foto2=Image.open(img)#Se almacena en otra variable la misma imagen para usar en umbral
+    foto5=Image.open(img)
     ancho,alto=foto.size
     escala(foto,ancho,alto)
     umbral(foto2,ancho,alto)
@@ -157,5 +322,5 @@ def main():
     filtro(foto3,ancho,alto)
     foto4=Image.open('escalada.jpg')
     convolucion(foto4,ancho,alto)
-                                    
+    sal_pimienta(foto5,ancho,alto)
 main()
