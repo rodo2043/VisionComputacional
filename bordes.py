@@ -270,7 +270,77 @@ def filtro(foto3,ancho,alto):#Funcion para realiza el filtrado
     tot=t_fi-t_in
     print "Tiempo de filtro:"+str(tot)+"segundos"
     ventana_filtro(foto3,ancho,alto)
-    
+
+def binarizacion(foto6,ancho,alto):
+    x=random.randint(50,100)
+    print "Valor maximo binarizacion:"+str(x)
+    pixeles=foto6.load()
+    for i in range(ancho):
+        for j in range(alto):
+            (r,g,b)=foto6.getpixel((i,j))
+            promedio=int((r+g+b)/3)
+            if promedio < x:
+                pixeles[i,j]=(0,0,0)
+            else:
+                pixeles[i,j]=(255,255,255)
+    foto6.save('binarizacion.jpg')
+    formas(foto6,ancho,alto)
+
+def formas(foto6,ancho,alto):
+    pixeles=foto6.load()#Cargar imagen
+    for i in range(ancho):#Recorrer imagen
+        for j in range (alto):
+            if pixeles[i,j]==(0,0,0):#Si el pixel actual es negro
+                col1=random.randint(0,255)
+                col2=random.randint(0,255)#Se genera un color random
+                col3=random.randint(0,255)
+                r,g,b=(col1,col2,col3)
+                bfs(foto6,(i,j),(r,g,b),ancho,alto)#Se llama al bfs
+
+def bfs(foto6,actual,color,ancho,alto):
+    pixeles=foto6.load()
+    cola=[]#Se crea la cola
+    cola.append(actual)#Se agrega el valor actual a la cola
+    partida=pixeles[actual]#punto de partida
+    while len(cola)>0:#Mientras existan valores en la cola hacer...
+        (x,y)=cola.pop(0)#Removemos el valor de la cola
+        actual=pixeles[x,y]#actual toma el valor de la cola
+        if actual==partida or actual ==color:#Si el pixel actual es igual al punto de partida o color 
+            
+            try:
+                if (pixeles[x-1,y]):#Revisar vecino izq
+                    if (pixeles[x-1,y]==partida):#Si rgb de vecino izq es igual a punto de partida
+                        pixeles[x-1,y]=color#Pintar pixel de color
+                        cola.append((x-1,y))#Y agregar a cola
+            except:
+                pass
+
+            try:
+                if (pixeles[x+1,y]):#Revisar vecino der                                                
+                    if (pixeles[x+1,y]==partida):#Lo mismo vecino der
+                        pixeles[x+1,y]=color
+                        cola.append((x+1,y))
+            except:
+                pass
+            try:
+                if (pixeles[x,y-1]):#Revisar vecino abajo                                              
+                    if (pixeles[x,y-1]==partida):#Lo mismo vecino abajo
+                        pixeles[x,y-1]=color
+                        cola.append((x,y-1))
+                                    
+            except:
+                pass
+
+            try:
+                if (pixeles[x,y+1]):#Revisar vecino arriba                                              
+                    if (pixeles[x,y+1]==partida):#Lo mismo vecino arriba
+                        pixeles[x,y+1]=color
+                        cola.append((x,y+1))
+            except:
+                pass
+            
+    foto6.save('prueba.jpg')
+        
 def umbral(foto2,ancho,alto):#Funcion para generar la imagen umbral
     minimo=random.randint(1,100)#valores para usar en el umbral               
     maximo=random.randint(101,200)
@@ -317,10 +387,12 @@ def main():
     foto5=Image.open(img)
     ancho,alto=foto.size
     escala(foto,ancho,alto)
-    umbral(foto2,ancho,alto)
+ #   umbral(foto2,ancho,alto)
     foto3=Image.open('escalada.jpg')
-    filtro(foto3,ancho,alto)
+  #  filtro(foto3,ancho,alto)
     foto4=Image.open('escalada.jpg')
     convolucion(foto4,ancho,alto)
-    sal_pimienta(foto5,ancho,alto)
+   # sal_pimienta(foto5,ancho,alto)
+    foto6=Image.open('bordes.jpg')
+    binarizacion(foto6,ancho,alto)
 main()
