@@ -1,10 +1,12 @@
 from time import *
 import sys
+from Tkinter import *
 import Tkinter
 from PIL import Image, ImageTk
 import random
 import math
 from math import *
+import ImageDraw
 
 def ventana_bordes(foto4,ancho,alto):# creacion de  ventana de grises       
     x=0#Cordenadas de posicion de la ventana                                 
@@ -37,36 +39,48 @@ def ventana_filtro(foto3,ancho,alto):# creacion de  ventana de grises
     Tkinter.Label(ventana_filtro,image=tkimage).pack()#Colocar imagen en venta
     ventana_filtro.mainloop()
 
-def ventana_salpi(foto5,ancho,alto):# creacion de  ventana de grises                                                       
-    x=0#Cordenadas de posicion de la ventana                                                                                     
+def ventana_figuras(foto6,ancho,alto):# creacion de  ventana de grises                                  
+    x=0#Cordenadas de posicion de la ventana                                                            
     y=0
-    ventana_salpi= Tkinter.Tk()#Creacion de ventana                                                                                      
-    ventana_salpi.title("Aplicacion Sal Pimienta")#Titulo de ventana                                                                      
-    ventana_salpi.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicio                                                             
-    tkimage=ImageTk.PhotoImage(foto5)#Se convierte la imagen en un objeto tk                                                                
-    Tkinter.Label(ventana_salpi,image=tkimage).pack()#Colocar imagen en venta                                                              
+    ventana_figuras= Tkinter.Tk()#Creacion de ventana                                                   
+    ventana_figuras.title("Figuras")#Titulo de ventana                                                  
+    ventana_figuras.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicio                         
+    img=ImageTk.PhotoImage(foto6)#Se convierte la imagen en un objeto tk                            
+    label=Label(ventana_figuras,image=img)#Colocar imagen en venta
+    label.foto6=img
+    label.place(x=10,y=10)
+    ventana_figuras.mainloop()
+
+
+def ventana_salpi(foto5,ancho,alto):# creacion de  ventana de grises                                    
+    x=0#Cordenadas de posicion de la ventana                                                    
+    y=0
+    ventana_salpi= Tkinter.Tk()#Creacion de ventana                                                
+    ventana_salpi.title("Aplicacion Sal Pimienta")#Titulo de ventana                                 
+    ventana_salpi.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicio                         
+    tkimage=ImageTk.PhotoImage(foto5)#Se convierte la imagen en un objeto tk                            
+    Tkinter.Label(ventana_salpi,image=tkimage).pack()#Colocar imagen en venta                          
     ventana_salpi.mainloop()
 
-def ventana_primerfiltrado(foto5,ancho,alto):# creacion de  ventana de grises                                                               
-    x=0#Cordenadas de posicion de la ventana                                                                                              
+def ventana_primerfiltrado(foto5,ancho,alto):# creacion de  ventana de grises                           
+    x=0#Cordenadas de posicion de la ventana                                                           
     y=0
-    ventana_primerfiltrado= Tkinter.Tk()#Creacion de ventana                                                                                
-    ventana_primerfiltrado.title("Primer filtro de removido")#Titulo de ventana                                                              
-    ventana_primerfiltrado.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicio                                                       
-    tkimage=ImageTk.PhotoImage(foto5)#Se convierte la imagen en un objeto tk                                                                
-    Tkinter.Label(ventana_primerfiltrado,image=tkimage).pack()#Colocar imagen en venta                                                       
+    ventana_primerfiltrado= Tkinter.Tk()#Creacion de ventana                                           
+    ventana_primerfiltrado.title("Primer filtro de removido")#Titulo de ventana                      
+    ventana_primerfiltrado.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicio                 
+    tkimage=ImageTk.PhotoImage(foto5)#Se convierte la imagen en un objeto tk                            
+    Tkinter.Label(ventana_primerfiltrado,image=tkimage).pack()#Colocar imagen en venta                  
     ventana_primerfiltrado.mainloop()
 
-def ventana_segundofiltrado(foto5,ancho,alto):# creacion de  ventana de grises                                                               
-    x=0#Cordenadas de posicion de la ventana                                                                                              
+def ventana_segundofiltrado(foto5,ancho,alto):# creacion de  ventana de grises                       
+    x=0#Cordenadas de posicion de la ventana                                                           
     y=0
-    ventana_segundofiltrado= Tkinter.Tk()#Creacion de ventana                                                                                
-    ventana_segundofiltrado.title("Segundo filtro remover todo")#Titulo de ventana                                                           
-    ventana_segundofiltrado.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicio                                                      
-    tkimage=ImageTk.PhotoImage(foto5)#Se convierte la imagen en un objeto tk                                                                
-    Tkinter.Label(ventana_segundofiltrado,image=tkimage).pack()#Colocar imagen en venta                                                      
+    ventana_segundofiltrado= Tkinter.Tk()#Creacion de ventana                                       
+    ventana_segundofiltrado.title("Segundo filtro remover todo")#Titulo de ventana                    
+    ventana_segundofiltrado.geometry("%dx%d+%d+%d" % (ancho,alto,x,y))#Tamano y posicio                 
+    tkimage=ImageTk.PhotoImage(foto5)#Se convierte la imagen en un objeto tk                        
+    Tkinter.Label(ventana_segundofiltrado,image=tkimage).pack()#Colocar imagen en venta                 
     ventana_segundofiltrado.mainloop()
-
 
 def convolucion(foto4,ancho,alto):
     t_in=time()
@@ -287,6 +301,9 @@ def binarizacion(foto6,ancho,alto):
     formas(foto6,ancho,alto)
 
 def formas(foto6,ancho,alto):
+    centro=[]
+    contador=[]
+    colores=[]
     pixeles=foto6.load()#Cargar imagen
     for i in range(ancho):#Recorrer imagen
         for j in range (alto):
@@ -295,11 +312,40 @@ def formas(foto6,ancho,alto):
                 col2=random.randint(0,255)#Se genera un color random
                 col3=random.randint(0,255)
                 r,g,b=(col1,col2,col3)
-                bfs(foto6,(i,j),(r,g,b),ancho,alto)#Se llama al bfs
-
+                cont,color,centro1,centro2=bfs(foto6,(i,j),(r,g,b),ancho,alto)#Se llama al bfs
+                contador.append(cont)#Se agrega a la cadena contador el numero de pixeles sumados en el recorrido anterior
+                colores.append(color)#Se agrega el color que se uso en el recorrido pasado
+                try:
+                    centro.append((sum(centro1)/float(len(centro1)),sum(centro2)/float(len(centro2))))#Formula para obtener los centros
+                except:
+                    pass
+    #print contador
+    #print colores
+    maximo=contador.index(max(contador))#Se obtiene el valor mas alto de la cadena contador
+    #print maximo
+    gris=colores[maximo]#Se obtiene el color usado en el valor mas alto del contador
+    #print gris
+    #rint centro1
+    #rint centro2
+    for i in range(ancho):#Recorrer imagen para repintar el area mas grande por gris
+        for j in range(alto):
+            if pixeles[i,j]==gris:
+                       pixeles[i,j]=(81,81,81)
+    #rint centro
+    draw=ImageDraw.Draw(foto6)#Pintamos un circulo en cada uno de los centros que se almacenaron en la lista centro
+    for i,recor in enumerate(centro):
+        draw.ellipse((recor[0]-2,recor[1]-2,recor[0]+2,recor[1]+2),fill=(0,0,0))
+        etiqueta = Label(text=i)#Se coloca la etiqueta de la figura
+        etiqueta.place(x = recor[0]+16,y = recor[1])
+    foto6.save('Mayor.jpg')
+    #ventana_figuras(foto6,ancho,alto)
+                
 def bfs(foto6,actual,color,ancho,alto):
     pixeles=foto6.load()
+    con=0
     cola=[]#Se crea la cola
+    centro_i=[]
+    centro_j=[]
     cola.append(actual)#Se agrega el valor actual a la cola
     partida=pixeles[actual]#punto de partida
     while len(cola)>0:#Mientras existan valores en la cola hacer...
@@ -312,6 +358,9 @@ def bfs(foto6,actual,color,ancho,alto):
                     if (pixeles[x-1,y]==partida):#Si rgb de vecino izq es igual a punto de partida
                         pixeles[x-1,y]=color#Pintar pixel de color
                         cola.append((x-1,y))#Y agregar a cola
+                        con+=1
+                        centro_i.append((x-1))#Agregar a lista para obtener los centros
+                        centro_j.append((y))
             except:
                 pass
 
@@ -320,6 +369,9 @@ def bfs(foto6,actual,color,ancho,alto):
                     if (pixeles[x+1,y]==partida):#Lo mismo vecino der
                         pixeles[x+1,y]=color
                         cola.append((x+1,y))
+                        con+=1
+                        centro_i.append((x+1))
+                        centro_j.append((y))
             except:
                 pass
             try:
@@ -327,6 +379,9 @@ def bfs(foto6,actual,color,ancho,alto):
                     if (pixeles[x,y-1]==partida):#Lo mismo vecino abajo
                         pixeles[x,y-1]=color
                         cola.append((x,y-1))
+                        con+=1
+                        centro_i.append((x))
+                        centro_j.append((y-1))
                                     
             except:
                 pass
@@ -336,10 +391,14 @@ def bfs(foto6,actual,color,ancho,alto):
                     if (pixeles[x,y+1]==partida):#Lo mismo vecino arriba
                         pixeles[x,y+1]=color
                         cola.append((x,y+1))
+                        con+=1
+                        centro_i.append((x))
+                        centro_j.append((y+1))
             except:
                 pass
             
     foto6.save('prueba.jpg')
+    return con,color,centro_i,centro_j
         
 def umbral(foto2,ancho,alto):#Funcion para generar la imagen umbral
     minimo=random.randint(1,100)#valores para usar en el umbral               
